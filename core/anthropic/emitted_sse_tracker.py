@@ -23,7 +23,7 @@ class EmittedNativeSseTracker:
 
     def feed(self, chunk: str) -> None:
         """Record SSE frames completed by ``chunk`` (handles splitting across reads)."""
-        self._buf += chunk
+        self._buf = "".join([self._buf, chunk])
         while True:
             sep = self._buf.find("\n\n")
             if sep < 0:

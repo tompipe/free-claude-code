@@ -278,7 +278,7 @@ class OpenAIChatTransport(BaseProvider):
         if state is None or not state.started:
             state = sse.blocks.ensure_tool_state(tc_index)
             if not (resolved_name or "").strip():
-                state.pre_start_args += arguments
+                state.pre_start_args = "".join([state.pre_start_args, arguments])
                 return
 
         yield from self._emit_tool_arg_delta(

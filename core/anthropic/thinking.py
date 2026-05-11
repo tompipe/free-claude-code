@@ -41,7 +41,7 @@ class ThinkTagParser:
 
     def feed(self, content: str) -> Iterator[ContentChunk]:
         """Feed content and yield parsed chunks."""
-        self._buffer += content
+        self._buffer = "".join([self._buffer, content])
 
         while self._buffer:
             prev_len = len(self._buffer)

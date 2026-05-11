@@ -113,7 +113,7 @@ class ContentBlockManager:
         if state is None or state.task_args_emitted:
             return None
 
-        state.task_arg_buffer += args
+        state.task_arg_buffer = "".join([state.task_arg_buffer, args])
         try:
             args_json = json.loads(state.task_arg_buffer)
         except Exception:

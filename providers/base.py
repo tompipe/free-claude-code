@@ -107,7 +107,7 @@ class BaseProvider(ABC):
         )
 
         if self._config.log_api_error_tracebacks:
-            logger.error(
+            logger.opt(exception=error).error(
                 "{}_ERROR:{} {}: {}", tag, req_tag, type(error).__name__, error
             )
             return

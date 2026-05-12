@@ -52,17 +52,23 @@ def _env_file_contains_key(path: Path, key: str) -> bool:
     return _env_file_value(path, key) is not None
 
 
-def _env_file_value(path: Path, key: str) -> str | None:
-    """Return a dotenv value when the file explicitly defines the key."""
+@lru_cache(maxsize=4)
+def _read_env_file(path: Path) -> dict[str, str | None] | None:
+    """Cache the parsed dotenv values for a file."""
     if not path.is_file():
         return None
 
     try:
-        values = dotenv_values(path)
+        return dotenv_values(path)
     except OSError:
         return None
 
-    if key not in values:
+
+def _env_file_value(path: Path, key: str) -> str | None:
+    """Return a dotenv value when the file explicitly defines the key."""
+    values = _read_env_file(path)
+
+    if values is None or key not in values:
         return None
     value = values[key]
     return "" if value is None else value

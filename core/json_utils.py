@@ -11,14 +11,9 @@ def dumps(obj: Any, default: Any = None, **kwargs) -> str:
     # default works if we pass it
     options = 0
 
-    try:
-        if default:
-            return orjson.dumps(obj, default=default, option=options).decode("utf-8")
-        return orjson.dumps(obj, option=options).decode("utf-8")
-    except Exception:
-        if default:
-            return orjson.dumps(obj, default=default).decode("utf-8")
-        return orjson.dumps(obj).decode("utf-8")
+    if default:
+        return orjson.dumps(obj, default=default, option=options).decode("utf-8")
+    return orjson.dumps(obj, option=options).decode("utf-8")
 
 
 def loads(s: str | bytes) -> Any:

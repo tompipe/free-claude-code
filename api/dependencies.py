@@ -115,7 +115,8 @@ def require_api_key(
         token = header.split(" ", 1)[1]
 
     # Strip anything after the first colon to handle tokens with appended model names
-    if token and ":" in token:
+    # Only split if the configured token itself does not contain a colon
+    if token and ":" in token and ":" not in anthropic_auth_token:
         token = token.split(":", 1)[0]
 
     # Constant-time comparison to avoid leaking the configured token via
